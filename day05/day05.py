@@ -1,4 +1,5 @@
 from collections import deque
+from copy import deepcopy
 import re
 
 with open("./data.txt", "r", encoding="utf-8") as data_file:
@@ -18,11 +19,28 @@ program = [
 
 
 # first star
-def move_crates(program: list, crates: list[deque]):
+def move_crates_1(program: list, crates: list[deque]):
+    new_crates = deepcopy(crates)
     for n in program:
         for x in range(n[0]):
-            crates[n[2] - 1].appendleft(crates[n[1] - 1].popleft())
+            new_crates[n[2] - 1].appendleft(new_crates[n[1] - 1].popleft())
+
+    return new_crates
+
+# second star
+def move_crates_2(program: list, crates: list[deque]):
+    new_crates = deepcopy(crates)
+    for n in program:
+        for elem in list(new_crates[n[1]-1])[:n[0]][::-1]:
+            new_crates[n[2]-1].appendleft(elem)
+        for x in range(n[0]):
+            new_crates[n[1]-1].popleft()
+
+    return new_crates
 
 
-move_crates(program, crates)
-print("".join([x[0] for x in crates if x]))
+first_star_crates = move_crates_1(program, crates)
+print("".join([x[0] for x in first_star_crates if x]))
+
+second_star_crates = move_crates_2(program, crates)
+print("".join([x[0] for x in second_star_crates if x]))
