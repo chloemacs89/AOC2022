@@ -27,6 +27,7 @@ def move_crates_1(program: list, crates: list[deque]):
 
     return new_crates
 
+
 # second star
 def move_crates_2(program: list, crates: list[deque]):
     new_crates = deepcopy(crates)

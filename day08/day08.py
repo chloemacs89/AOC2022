@@ -34,10 +34,11 @@ def look_for_views(data: list[data], t_data: list[int]) -> list[int]:
             views.append(prod(view))
 
     return max(views)
-            
 
-def surrounding(data: list[int], t_data: list[int],curr_list: list[int], row: int, col: int) -> tuple:
-    return (data[row][0:col][::-1], data[row][col+1: len(curr_list)], t_data[col][0:row][::-1], t_data[col][row+1:len(t_data[row])])
+
+def surrounding(data: list[int], t_data: list[int], curr_list: list[int], row: int, col: int) -> tuple:
+    return (data[row][0:col][::-1], data[row][col+1: len(curr_list)], t_data[col][0:row][::-1], t_data[col][row+1:len(t_data[row])]) # NOQA
+
 
 def check_tree(pl, nl, pc, nc, val) -> int:
     check = (
@@ -59,9 +60,8 @@ def calc_view(values: list[int], val: int) -> int:
         view += 1
         if x >= val:
             return view
-    
-    return view
 
+    return view
 
 
 print(look_for_trees(data, data_transpose))
