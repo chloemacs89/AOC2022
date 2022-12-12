@@ -1,3 +1,6 @@
+from math import prod
+from copy import deepcopy
+
 # monkeys = {
 #     0: [[79, 98], ("mul", 19), (23, 2, 3), 0],
 #     1: [[54, 65, 75, 74], ("add", 6), (19, 2, 0), 0],
@@ -16,20 +19,20 @@ monkeys = {
     7: [[59, 59, 74], ("add", 8), (3, 1, 3), 0],
 }
 
-def game(monkeys: dict):
-    # import pdb; pdb.set_trace()
-    for _ in range(20):
+def game(monkeys: dict, rounds: int, div: int) -> int:
+    valcap = prod([x[2][0] for x in monkeys.values()])
+    for _ in range(rounds):
         for key, val in monkeys.items():
             if val[0]:
                 while val[0]:
                     val[3] += 1
                     match val[1]:
                         case ("mul", nb):
-                            val[0][0] = int(val[0][0]*nb/3)
+                            val[0][0] = int(val[0][0]*nb/div) if div != 1 else int(val[0][0]*nb)%valcap
                         case ("add", nb):
-                            val[0][0] = int((val[0][0]+nb)/3)
+                            val[0][0] = int((val[0][0]+nb)/div) if div != 1 else int(val[0][0]+nb)%valcap
                         case ("self"):
-                            val[0][0] = int(val[0][0]*val[0][0]/3)
+                            val[0][0] = int((val[0][0]**2)/div) if div != 1 else int(val[0][0]**2)%valcap
                     if not val[0][0] % val[2][0]:
                         monkeys[val[2][1]][0].append(val[0][0])
                     else:
@@ -40,4 +43,5 @@ def game(monkeys: dict):
     return activity[0]*activity[1]
 
 
-print(game(monkeys))
+print(game(deepcopy(monkeys), 20, 3))
+print(game(deepcopy(monkeys), 10000, 1))
